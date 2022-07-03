@@ -1,0 +1,77 @@
+# BREVETECH GITMOJI COMMITIZEN TEMPLATE FOR PYTHON PROJECTS
+# Install commitizen as dev-dep and add the configurations below to your pyproject.toml file
+# or copy this one into your project if you don't have one.
+
+[tool.commitizen]
+name = "cz_customize"
+version = "0.0.1" 
+tag_format = "v$version"
+bump_message = ":arrow_up: bump: version $current_version → $new_version"
+
+[tool.commitizen.customize]
+message_template = "{{change_type}}{% if scope != '' -%}({{ scope }}){% endif %}: {{message}}{% if description != '' -%}{{'\n'}}{{'\n'}}{{description}}{% endif %}{% if issues != '' -%}{{'\n'}}{{'\n'}}{%for issue in issues.split(',')%}Closes #{{issue.strip()}} {%endfor%}{% endif %}"
+example = ":sparkles: feat: this feature enable customize through config file"
+schema = "<type>(<scope>): <subject>\n<BLANK LINE>\n<body>\n<BLANK LINE>\n<issues>"
+schema_pattern = ":+[a-z_0-9]+:+ +(breaking|feat|bugfix|hotfix|refactor|perf|docs|test|style|build|chore|ci|arch|wip|package|poop|bump)+(([(]+[a-z_0-9]+[)])?)+:(\\s.*)"
+bump_pattern = "^(:boom: breaking|:sparkles: feat|:bug: bugfix|:ambulance: hotfix|:recycle: refactor|:zap: perf)"
+bump_map = {":boom: breaking" = "MAJOR", ":sparkles: feat" = "MINOR", ":bug: bugfix" = "PATCH", ":ambulance: hotfix" = "PATCH", ":recycle: refactor" = "PATCH", ":zap: perf" = "PATCH"}
+change_type_order = ["breaking", "feat", "hotfix", "bugfix", "perf"]
+info = """
+BREVETECH GITMOJI COMMITIZEN TEMPLATE FOR PYTHON PROJECTS.
+
+This is a customized version of the commitizen template, based on a extended version of conventional commits.
+
+Includes more change types and a customized message template. Also includes gitmoji and github issues support.
+
+Question validation features are not implemented yet.
+"""
+commit_parser = '^(?P<change_type>:boom: breaking|:sparkles: feat|:bug: bugfix|:ambulance: hotfix|:zap: perf)+(?:\((?P<scope>[^()\r\n]*)\)|\()?(?P<breaking>!)?:\s(?P<message>.*)?'
+changelog_pattern = "^(:boom: breaking|:sparkles: feat|:bug: bugfix|:ambulance: hotfix|:zap: perf)"
+change_type_map = {":boom: breaking" = "💥 Breaking changes",":sparkles: feat" = "✨ Features", ":bug: bugfix" = "🐛 Fixed Bugs", ":recycle: refactor" = "♲ Refactorings", ":zap: perf" = "⚡ Performance improvements"}
+
+[[tool.commitizen.customize.questions]]
+type = "list"
+name = "change_type"
+choices = [
+    {value = ":boom: breaking", name = "💥 breaking: Use to indicate a breaking change. Correlates to MAJOR in SemVer."},
+    {value = ":sparkles: feat", name = "✨ feat: Add a new feature. Correlates to MINOR in SemVer"},
+    {value = ":bug: bugfix", name = "🐛 bugfix: Solves a non critical bug. Correlates to PATCH in SemVer"},
+    {value = ":ambulance: hotfix", name = "🚑 hotfix: Solves a critcal bug or error. Correlates to PATCH in SemVer"},
+    {value = ":recycle: refactor", name = "♻️ refactor: Code change that neither fixes a bug nor add a feature. Correlates to PATCH in SemVer"},
+    {value = ":zap: perf", name = "⚡ perf: Change that improves performance. Correlates to PATCH in SemVer"},
+    {value = ":memo: docs", name = "📝 docs: App or code documentation only change."},
+    {value = ":white_check_mark: test", name = "✅ test: Add or modify tests."},
+    {value = ":art: style", name = "🎨 style: Apply visual changes to the codebase."},
+    {value = ":construction_worker: build", name = "👷 build: Changes that affect the build system or external dependencies (example scripts, environment variables, etc.)"},
+    {value = ":wrench: chore", name = "🔧 chore: Changes to development related tools and settings, or changes to support tools."},
+    {value = ":green_heart: ci", name = "💚 ci: Changes to the CI or CD tools."},
+    {value = ":building_construction: arch", name = "🏗 arch: Changes to the architecture of the application like moving, dividing or merging files."},
+    {value = ":construction: wip", name = "🚧 wip: Work in progress. Use when commit does not ends a feature, fix or other changes."},
+    {value = ":package: package", name = "📦 package: Changes to the project dependencies or package manager."},
+    {value = ":poop: poop", name = "💩 poop: Commit code that needs to be refactored later. Use when you need to refactor code but don't have time to do it right now."},
+]
+message = "Select the type of change you are committing"
+
+
+[[tool.commitizen.customize.questions]]
+type = "input"
+name = "scope"
+message = "What is the scope of this change? (app name, package name, function, setting scope, etc.) [ENTER to skip]"
+default = ""
+
+[[tool.commitizen.customize.questions]]
+type = "input"
+name = "message"
+message = "Write a short, imperative tense description of the change (lowercase, no periods)\nFor example: add feature xyz, fix bug 123, deprecate abc\n"
+
+[[tool.commitizen.customize.questions]]
+type = "input"
+name = "description"
+message = "Write a longer description of the change. Feel free to use gitmoji for each sentence. [ENTER to skip]\n"
+default = ''
+
+[[tool.commitizen.customize.questions]]
+type = "input"
+name = "issues"
+message = "Write closed github issues if there are, comma separated.\nPLEASE BE CAREFUL, INPUT VALIDATION IS NOT IMPLEMENTED YET. [ENTER to skip]\n"
+default = ''

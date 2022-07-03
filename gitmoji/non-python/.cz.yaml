@@ -1,0 +1,147 @@
+commitizen:
+  bump_message: ":arrow_up: bump: version $current_version \u2192 $new_version"
+  customize:
+    bump_map:
+      ":ambulance: hotfix": PATCH
+      ":boom: breaking": MAJOR
+      ":bug: bugfix": PATCH
+      ":recycle: refactor": PATCH
+      ":sparkles: feat": MINOR
+      ":zap: perf": PATCH
+    bump_pattern:
+      "^(:boom: breaking|:sparkles: feat|:bug: bugfix|:ambulance: hotfix|:recycle:
+      refactor|:zap: perf)"
+    change_type_map:
+      ":boom: breaking": "\U0001F4A5 Breaking changes"
+      ":bug: bugfix": "\U0001F41B Fixed Bugs"
+      ":recycle: refactor": "\u2672 Refactorings"
+      ":sparkles: feat": "\u2728 Features"
+      ":zap: perf": "\u26A1 Performance improvements"
+    change_type_order:
+      - breaking
+      - feat
+      - hotfix
+      - bugfix
+      - perf
+    changelog_pattern:
+      "^(:boom: breaking|:sparkles: feat|:bug: bugfix|:ambulance:
+      hotfix|:zap: perf)"
+    commit_parser:
+      '^(?P<change_type>:boom: breaking|:sparkles: feat|:bug: bugfix|:ambulance:
+      hotfix|:zap: perf)+(?:\((?P<scope>[^()\r\n]*)\)|\()?(?P<breaking>!)?:\s(?P<message>.*)?'
+    example: ":sparkles: feat: this feature enable customize through config file"
+    info: BREVETECH GITMOJI COMMITIZEN TEMPLATE FOR NON PYTHON PROJECTS
+    message_template: "{{change_type}}{% if scope != '' -%}({{ scope }}){% endif
+      %}: {{message}}{% if description != '' -%}{{'
+
+      '}}{{'
+
+      '}}{{description}}{% endif %}{% if issues != '' -%}{{'
+
+      '}}{{'
+
+      '}}{%for issue in issues.split(',')%}Closes #{{issue.strip()}} {%endfor%}{%
+      endif %}"
+    questions:
+      - choices:
+          - name:
+              "\U0001F4A5 breaking: Use to indicate a breaking change. Correlates\
+              \ to MAJOR in SemVer."
+            value: ":boom: breaking"
+          - name: "\u2728 feat: Add a new feature. Correlates to MINOR in SemVer"
+            value: ":sparkles: feat"
+          - name:
+              "\U0001F41B bugfix: Solves a non critical bug. Correlates to PATCH in\
+              \ SemVer"
+            value: ":bug: bugfix"
+          - name:
+              "\U0001F691 hotfix: Solves a critcal bug or error. Correlates to PATCH\
+              \ in SemVer"
+            value: ":ambulance: hotfix"
+          - name:
+              "\u267B\uFE0F refactor: Code change that neither fixes a bug nor add\
+              \ a feature. Correlates to PATCH in SemVer"
+            value: ":recycle: refactor"
+          - name:
+              "\u26A1 perf: Change that improves performance. Correlates to PATCH\
+              \ in SemVer"
+            value: ":zap: perf"
+          - name: "\U0001F4DD docs: App or code documentation only change."
+            value: ":memo: docs"
+          - name: "\u2705 test: Add or modify tests."
+            value: ":white_check_mark: test"
+          - name: "\U0001F3A8 style: Apply visual changes to the codebase."
+            value: ":art: style"
+          - name:
+              "\U0001F477 build: Changes that affect the build system or external\
+              \ dependencies (example scripts, environment variables, etc.)"
+            value: ":construction_worker: build"
+          - name:
+              "\U0001F527 chore: Changes to development related tools and settings,\
+              \ or changes to support tools."
+            value: ":wrench: chore"
+          - name: "\U0001F49A ci: Changes to the CI or CD tools."
+            value: ":green_heart: ci"
+          - name:
+              "\U0001F3D7 arch: Changes to the architecture of the application like\
+              \ moving, dividing or merging files."
+            value: ":building_construction: arch"
+          - name:
+              "\U0001F6A7 wip: Work in progress. Use when commit does not ends a feature,\
+              \ fix or other changes."
+            value: ":construction: wip"
+          - name:
+              "\U0001F4E6 package: Changes to the project dependencies or package\
+              \ manager."
+            value: ":package: package"
+          - name:
+              "\U0001F4A9 poop: Commit code that needs to be refactored later. Use\
+              \ when you need to refactor code but don't have time to do it right now."
+            value: ":poop: poop"
+        message: Select the type of change you are committing
+        name: change_type
+        type: list
+      - default: ""
+        message:
+          What is the scope of this change? (app name, package name, function,
+          setting scope, etc.) [ENTER to skip]
+        name: scope
+        type: input
+      - message:
+          "Write a short, imperative tense description of the change (lowercase,
+          no periods)
+
+          For example: add feature xyz, fix bug 123, deprecate abc
+
+          "
+        name: message
+        type: input
+      - default: ""
+        message:
+          "Write a longer description of the change. Feel free to use gitmoji
+          for each sentence. [ENTER to skip]
+
+          "
+        name: description
+        type: input
+      - default: ""
+        message: "Write closed github issues if there are, comma separated.
+
+          PLEASE BE CAREFUL, INPUT VALIDATION IS NOT IMPLEMENTED YET. [ENTER to skip]
+
+          "
+        name: issues
+        type: input
+    schema: "<type>(<scope>): <subject>
+
+      <BLANK LINE>
+
+      <body>
+
+      <BLANK LINE>
+
+      <issues>"
+    schema_pattern: :+[a-z_0-9]+:+ +(breaking|feat|bugfix|hotfix|refactor|perf|docs|test|style|build|chore|ci|arch|wip|package|poop|bump)+(([(]+[a-z_0-9]+[)])?)+:(\s.*)
+  name: cz_customize
+  tag_format: v$version
+  version: 1.1.0
